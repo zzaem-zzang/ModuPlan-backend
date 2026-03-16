@@ -6,6 +6,7 @@ import com.moduplan.auth.dto.SignupResponse;
 import com.moduplan.user.entity.User;
 import com.moduplan.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.existsByEmail(request.email())){
@@ -22,7 +24,7 @@ public class AuthService {
         }
         User user = User.builder()
                 .email(request.email())
-                .password(request.password())
+                .password(passwordEncoder.encode(request.password()))
                 .nickname(request.nickname())
                 .build();
 
