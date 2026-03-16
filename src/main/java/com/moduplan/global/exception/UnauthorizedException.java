@@ -1,4 +1,4 @@
-package com.global.exception;
+package com.moduplan.global.exception;
 
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException() {

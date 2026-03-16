@@ -1,4 +1,4 @@
-package com.global.exception;
+package com.moduplan.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
