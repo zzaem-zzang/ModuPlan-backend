@@ -1,4 +1,4 @@
-package com.global.exception;
+package com.moduplan.global.exception;
 
 public class ForbiddenException extends RuntimeException{
 

@@ -52,8 +52,11 @@ ModuPlan Backend
 #### Response Body
 ```json
 {
-  "userId": 1,
-  "message": "회원가입이 완료되었습니다."
+  "status": 201,
+  "message": "회원가입이 완료되었습니다.",
+  "data": {
+    "userId": 1
+  }
 }
 ```
 성공 상태코드
@@ -88,11 +91,15 @@ ModuPlan Backend
 #### Response Body
 ```json
 {
-  "accessToken": "jwt-access-token",
-  "refreshToken": "jwt-refresh-token",
-  "user": {
-    "id": 1,
-    "nickname": "modu"
+  "status": 200,
+  "message": "로그인에 성공했습니다.",
+  "data": {
+    "accessToken": "jwt-access-token",
+    "refreshToken": "jwt-refresh-token",
+    "user": {
+      "id": 1,
+      "nickname": "modu"
+    }
   }
 }
 ```
@@ -125,7 +132,9 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "message": "로그아웃이 완료되었습니다."
+  "status": 200,
+  "message": "로그아웃이 완료되었습니다.",
+  "data": null
 }
 ```
 성공 상태코드
@@ -154,8 +163,12 @@ refreshToken: "jwt-refresh-token"
 #### Response Body
 ```json
 {
-  "accessToken": "new-jwt-access-token",
-  "refreshToken": "new-jwt-refresh-token"
+  "status": 200,
+  "message": "토큰 재발급이 완료되었습니다.",
+  "data": {
+    "accessToken": "new-jwt-access-token",
+    "refreshToken": "new-jwt-refresh-token"
+  }
 }
 ```
 성공 상태코드
@@ -188,10 +201,14 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "userId": 1,
-  "email": "test@test.com",
-  "nickname": "modu",
-  "createdAt": "2026-03-16T10:00:00"
+  "status": 200,
+  "message": "내 정보 조회에 성공했습니다.",
+  "data": {
+    "userId": 1,
+    "email": "test@test.com",
+    "nickname": "modu",
+    "createdAt": "2026-03-16T10:00:00"
+  }
 }
 ```
 성공 상태코드
@@ -227,10 +244,14 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "userId": 1,
-  "nickname": "modu",
-  "profileImageUrl": null,
-  "joinedGroupCount": 3
+  "status": 200,
+  "message": "회원 상세 조회에 성공했습니다.",
+  "data": {
+    "userId": 1,
+    "nickname": "modu",
+    "profileImageUrl": null,
+    "joinedGroupCount": 3
+  }
 }
 ```
 성공 상태코드
@@ -267,7 +288,9 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "message": "회원 탈퇴가 완료되었습니다."
+  "status": 200,
+  "message": "회원 탈퇴가 완료되었습니다.",
+  "data": null
 }
 ```
 성공 상태코드
@@ -313,8 +336,11 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "groupId": 1,
-  "message": "모임이 생성되었습니다."
+  "status": 201,
+  "message": "모임이 생성되었습니다.",
+  "data": {
+    "groupId": 1
+  }
 }
 ```
 성공 상태코드
@@ -352,20 +378,24 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "content": [
-    {
-      "groupId": 1,
-      "name": "주말 러닝 모임",
-      "description": "대구 수성구 중심 러닝 모임입니다.",
-      "currentMembers": 5,
-      "maxMembers": 20,
-      "region": "대구 수성구",
-      "category": "SPORTS"
-    }
-  ],
-  "page": 0,
-  "size": 10,
-  "totalElements": 1
+  "status": 200,
+  "message": "모임 목록 조회에 성공했습니다.",
+  "data": {
+    "content": [
+      {
+        "groupId": 1,
+        "name": "주말 러닝 모임",
+        "description": "대구 수성구 중심 러닝 모임입니다.",
+        "currentMembers": 5,
+        "maxMembers": 20,
+        "region": "대구 수성구",
+        "category": "SPORTS"
+      }
+    ],
+    "page": 0,
+    "size": 10,
+    "totalElements": 1
+  }
 }
 ```
 성공 상태코드
@@ -397,19 +427,23 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "groupId": 1,
-  "name": "주말 러닝 모임",
-  "description": "대구 수성구 중심 러닝 모임입니다.",
-  "category": "SPORTS",
-  "region": "대구 수성구",
-  "currentMembers": 5,
-  "maxMembers": 20,
-  "leader": {
-    "userId": 1,
-    "nickname": "modu"
-  },
-  "isPublic": true,
-  "createdAt": "2026-03-16T11:00:00"
+  "status": 200,
+  "message": "모임 상세 조회에 성공했습니다.",
+  "data": {
+    "groupId": 1,
+    "name": "주말 러닝 모임",
+    "description": "대구 수성구 중심 러닝 모임입니다.",
+    "category": "SPORTS",
+    "region": "대구 수성구",
+    "currentMembers": 5,
+    "maxMembers": 20,
+    "leader": {
+      "userId": 1,
+      "nickname": "modu"
+    },
+    "isPublic": true,
+    "createdAt": "2026-03-16T11:00:00"
+  }
 }
 ```
 성공 상태코드
@@ -447,18 +481,22 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "content": [
-    {
-      "groupId": 1,
-      "name": "주말 러닝 모임",
-      "role": "LEADER",
-      "currentMembers": 5,
-      "maxMembers": 20
-    }
-  ],
-  "page": 0,
-  "size": 10,
-  "totalElements": 1
+  "status": 200,
+  "message": "내 모임 목록 조회에 성공했습니다.",
+  "data": {
+    "content": [
+      {
+        "groupId": 1,
+        "name": "주말 러닝 모임",
+        "role": "LEADER",
+        "currentMembers": 5,
+        "maxMembers": 20
+      }
+    ],
+    "page": 0,
+    "size": 10,
+    "totalElements": 1
+  }
 }
 ```
 성공 상태코드
@@ -493,7 +531,9 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "message": "모임이 삭제되었습니다."
+  "status": 200,
+  "message": "모임이 삭제되었습니다.",
+  "data": null
 }
 ```
 성공 상태코드
@@ -534,8 +574,11 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "applicationId": 1,
-  "message": "참여 신청이 완료되었습니다."
+  "status": 201,
+  "message": "참여 신청이 완료되었습니다.",
+  "data": {
+    "applicationId": 1
+  }
 }
 ```
 성공 상태코드
@@ -576,9 +619,12 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "applicationId": 1,
-  "status": "APPROVED",
-  "message": "참여 신청이 승인되었습니다."
+  "status": 200,
+  "message": "참여 신청이 승인되었습니다.",
+  "data": {
+    "applicationId": 1,
+    "status": "APPROVED"
+  }
 }
 ```
 성공 상태코드
@@ -621,9 +667,12 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "applicationId": 1,
-  "status": "REJECTED",
-  "message": "참여 신청이 거절되었습니다."
+  "status": 200,
+  "message": "참여 신청이 거절되었습니다.",
+  "data": {
+    "applicationId": 1,
+    "status": "REJECTED"
+  }
 }
 ```
 성공 상태코드
@@ -676,8 +725,11 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "scheduleId": 1,
-  "message": "일정이 생성되었습니다."
+  "status": 201,
+  "message": "일정이 생성되었습니다.",
+  "data": {
+    "scheduleId": 1
+  }
 }
 ```
 성공 상태코드
@@ -720,15 +772,19 @@ Authorization: Bearer {accessToken}
 #### Response Body
 ```json
 {
-  "schedules": [
-    {
-      "scheduleId": 1,
-      "title": "토요일 아침 러닝",
-      "description": "수성못 5km 러닝",
-      "scheduledAt": "2026-03-20T19:00:00",
-      "location": "수성못"
-    }
-  ]
+  "status": 200,
+  "message": "일정 목록 조회에 성공했습니다.",
+  "data": {
+    "schedules": [
+      {
+        "scheduleId": 1,
+        "title": "토요일 아침 러닝",
+        "description": "수성못 5km 러닝",
+        "scheduledAt": "2026-03-20T19:00:00",
+        "location": "수성못"
+      }
+    ]
+  }
 }
 ```
 성공 상태코드
