@@ -33,8 +33,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = authService.login(request);
 
-        return ResponseEntity.ok(
-                ApiResponse.success(200, "로그인 성공", response)
-        );
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(200, "로그인 성공", response));
     }
 }
