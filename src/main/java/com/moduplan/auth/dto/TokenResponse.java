@@ -1,8 +1,6 @@
 package com.moduplan.auth.dto;
 
-public record LoginResponse(
-        Long id,
-        String nickname,
+public record TokenResponse(
         String accessToken,
         String refreshToken
 ) {

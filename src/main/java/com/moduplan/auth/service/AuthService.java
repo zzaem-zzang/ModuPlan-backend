@@ -1,11 +1,8 @@
 package com.moduplan.auth.service;
 
-import com.moduplan.auth.dto.LoginRequest;
-import com.moduplan.auth.dto.LoginResponse;
+import com.moduplan.auth.dto.*;
 import com.moduplan.auth.jwt.JwtTokenProvider;
 import com.moduplan.global.exception.BadRequestException;
-import com.moduplan.auth.dto.SignupRequest;
-import com.moduplan.auth.dto.SignupResponse;
 import com.moduplan.global.exception.ForbiddenException;
 import com.moduplan.global.exception.UnauthorizedException;
 import com.moduplan.user.entity.User;
@@ -24,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    //Redis 추가
 
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.existsByEmail(request.email())){
@@ -56,11 +54,35 @@ public class AuthService {
             throw new ForbiddenException("비활성화된 계정입니다.");
         }
 
-        String token = jwtTokenProvider.createToken(user.getId(), user.getEmail());
+        String accessToken = jwtTokenProvider.createAccessToken(user.getId(), user.getEmail());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getId(), user.getEmail());
         return new LoginResponse(
                 user.getId(),
                 user.getNickname(),
-                token
+                accessToken,
+                refreshToken
         );
     }
+    // 토큰 재발급
+    @Transactional
+    public TokenResponse reissueToken(TokenReissueRequest request){
+        String refreshToken = request.refreshToken();
+
+        if (!jwtTokenProvider.validateToken(refreshToken)){
+            throw new UnauthorizedException("유효하지 않은 리프레시 토큰입니다.")
+        }
+
+        Long userId = jwtTokenProvider.getUserId(refreshToken);
+        String email = jwtTokenProvider.getEmail(refreshToken);
+
+        String savedRefreshToken = readisService.getRefrshToken(userId);
+
+        if (savedRefreshToken == null || !savedRefreshToken.equals(refreshToken)){
+            throw new UnauthorizedException("리프레시 토큰이 일치하지 않습니다.");
+        }
+
+        String newAccessToken = jwtTokenProvider.createAccessToken(userId, email);
+        String newRefreshToken = jwtTokenProvider.createRefreshToken(userId, email);
+
+
 }
