@@ -2,6 +2,7 @@ package com.moduplan.auth.dto;
 
 public record LoginResponse(
         Long id,
-        String nickname
+        String nickname,
+        String token
 ) {
 }

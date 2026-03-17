@@ -2,6 +2,7 @@ package com.moduplan.auth.service;
 
 import com.moduplan.auth.dto.LoginRequest;
 import com.moduplan.auth.dto.LoginResponse;
+import com.moduplan.auth.jwt.JwtTokenProvider;
 import com.moduplan.global.exception.BadRequestException;
 import com.moduplan.auth.dto.SignupRequest;
 import com.moduplan.auth.dto.SignupResponse;
@@ -22,6 +23,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.existsByEmail(request.email())){
@@ -45,17 +47,20 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException("이메일 또는 비밀번호가 올바르지 않습니다."));
 
+        // 비밀번호 틀림은 -> 인증실패
         if (!passwordEncoder.matches(request.password(), user.getPassword())){
-            throw new BadRequestException("이메일 또는 비밀번호가 올바르지 않습니다.");
+            throw new UnauthorizedException("이메일 또는 비밀번호가 올바르지 않습니다.");
         }
 
         if (user.getStatus() == UserStatus.INACTIVE) {
             throw new ForbiddenException("비활성화된 계정입니다.");
         }
 
+        String token = jwtTokenProvider.createToken(user.getId(), user.getEmail());
         return new LoginResponse(
                 user.getId(),
-                user.getNickname()
+                user.getNickname(),
+                token
         );
     }
 }

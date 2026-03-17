@@ -4,12 +4,15 @@ import com.moduplan.auth.dto.LoginRequest;
 import com.moduplan.auth.dto.LoginResponse;
 import com.moduplan.auth.dto.SignupRequest;
 import com.moduplan.auth.dto.SignupResponse;
+import com.moduplan.auth.jwt.CustomUserPrincipal;
 import com.moduplan.auth.service.AuthService;
 import com.moduplan.global.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import java.util.Map;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

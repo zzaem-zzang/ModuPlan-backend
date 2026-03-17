@@ -92,14 +92,11 @@ ModuPlan Backend
 ```json
 {
   "status": 200,
-  "message": "로그인에 성공했습니다.",
+  "message": "로그인 성공",
   "data": {
-    "accessToken": "jwt-access-token",
-    "refreshToken": "jwt-refresh-token",
-    "user": {
-      "id": 1,
-      "nickname": "modu"
-    }
+    "id": 10,
+    "nickname": "asd",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImVtYWlsIjoidGVkZ2dzdGRAdGVkc3NzdC5jb20iLCJpYXQiOjE3NzM3MjM5MDksImV4cCI6MTc3MzcyNzUwOX0.To3YkNfUPHnSfmp9CYLXKI5C-CAHST7EmBxTPfXpbTg"
   }
 }
 ```
