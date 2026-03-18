@@ -21,7 +21,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    //Redis 추가
+    private final RedisService redisService;
+
 
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.existsByEmail(request.email())){
@@ -40,7 +41,7 @@ public class AuthService {
         );
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public LoginResponse login(LoginRequest request){
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UnauthorizedException("이메일 또는 비밀번호가 올바르지 않습니다."));
@@ -56,6 +57,8 @@ public class AuthService {
 
         String accessToken = jwtTokenProvider.createAccessToken(user.getId(), user.getEmail());
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getId(), user.getEmail());
+
+        redisService.saveRefreshToken(user.getId(), refreshToken);
         return new LoginResponse(
                 user.getId(),
                 user.getNickname(),
@@ -65,24 +68,28 @@ public class AuthService {
     }
     // 토큰 재발급
     @Transactional
-    public TokenResponse reissueToken(TokenReissueRequest request){
+    public TokenResponse reissueToken(TokenReissueRequest request) {
         String refreshToken = request.refreshToken();
 
-        if (!jwtTokenProvider.validateToken(refreshToken)){
-            throw new UnauthorizedException("유효하지 않은 리프레시 토큰입니다.")
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new UnauthorizedException("유효하지 않은 리프레시 토큰입니다.");
         }
 
         Long userId = jwtTokenProvider.getUserId(refreshToken);
         String email = jwtTokenProvider.getEmail(refreshToken);
 
-        String savedRefreshToken = readisService.getRefrshToken(userId);
+        String savedRefreshToken = redisService.getRefreshToken(userId);
 
-        if (savedRefreshToken == null || !savedRefreshToken.equals(refreshToken)){
+        if (savedRefreshToken == null || !savedRefreshToken.equals(refreshToken)) {
             throw new UnauthorizedException("리프레시 토큰이 일치하지 않습니다.");
         }
 
         String newAccessToken = jwtTokenProvider.createAccessToken(userId, email);
         String newRefreshToken = jwtTokenProvider.createRefreshToken(userId, email);
 
+        redisService.saveRefreshToken(userId, newRefreshToken);
 
+        return new TokenResponse(newAccessToken, newRefreshToken);
+
+    }
 }

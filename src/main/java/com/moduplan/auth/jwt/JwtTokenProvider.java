@@ -13,12 +13,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
+public class
+JwtTokenProvider {
 
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.access-expiration")
+    @Value("${jwt.access-expiration}")
     private long accessExpiration;
 
     @Value("${jwt.refresh-expiration}")

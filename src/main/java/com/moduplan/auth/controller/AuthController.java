@@ -1,9 +1,6 @@
 package com.moduplan.auth.controller;
 
-import com.moduplan.auth.dto.LoginRequest;
-import com.moduplan.auth.dto.LoginResponse;
-import com.moduplan.auth.dto.SignupRequest;
-import com.moduplan.auth.dto.SignupResponse;
+import com.moduplan.auth.dto.*;
 import com.moduplan.auth.jwt.CustomUserPrincipal;
 import com.moduplan.auth.service.AuthService;
 import com.moduplan.global.response.ApiResponse;
@@ -37,6 +34,15 @@ public class AuthController {
         LoginResponse response = authService.login(request);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.success(200, "로그인 성공", response));
+                .body(ApiResponse.success(200, "로그인 성공하였습니다", response));
+    }
+
+    // 토큰 재발급
+    @PostMapping("/reissue")
+    public ResponseEntity<ApiResponse<TokenResponse>> reissue(@RequestBody TokenReissueRequest request) {
+        TokenResponse response = authService.reissueToken(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(201,"토큰 재발급 성공하였습니다.", response));
     }
 }

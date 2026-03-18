@@ -92,11 +92,12 @@ ModuPlan Backend
 ```json
 {
   "status": 200,
-  "message": "로그인 성공",
+  "message": "로그인 성공하였습니다",
   "data": {
-    "id": 10,
-    "nickname": "asd",
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImVtYWlsIjoidGVkZ2dzdGRAdGVkc3NzdC5jb20iLCJpYXQiOjE3NzM3MjM5MDksImV4cCI6MTc3MzcyNzUwOX0.To3YkNfUPHnSfmp9CYLXKI5C-CAHST7EmBxTPfXpbTg"
+    "id": 14,
+    "nickname": "aaa",
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsImVtYWlsIjoiYWFhQG5hdmVyLmNvbSIsImlhdCI6MTc3MzgwNzQ2MiwiZXhwIjoxNzczODExMDYyfQ.jp9wU3-a0-wWo6XjylIWF4eC5jgdmrKINTSn0Rw6Fb8",
+    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsImVtYWlsIjoiYWFhQG5hdmVyLmNvbSIsImlhdCI6MTc3MzgwNzQ2MiwiZXhwIjoxNzc0NDEyMjYyfQ.4BVwHTiGcJbwlcBtTaj_YawjFBPL2bgo0lRenzbSkVk"
   }
 }
 ```
