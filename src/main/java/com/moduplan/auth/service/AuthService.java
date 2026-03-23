@@ -92,4 +92,17 @@ public class AuthService {
         return new TokenResponse(newAccessToken, newRefreshToken);
 
     }
+
+    @Transactional
+    public void logout(String authorizationHeader) {
+        String token = authorizationHeader.substring(7);
+
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new UnauthorizedException("유효하지 않거나 만료된 토큰입니다.");
+        }
+
+        Long userId = jwtTokenProvider.getUserId(token);
+
+        redisService.deleteRefreshToken(userId);
+    }
 }
