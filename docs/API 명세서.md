@@ -359,7 +359,7 @@ Authorization: Bearer {accessToken}
 - **Method**: `GET`
 - **URL**: `/api/groups`
 - **설명**: 전체 모임 목록을 조회한다
-- **권한**: 비회원, 회원
+- **권한**: 회원
 
 #### Query Parameter
 | 이름       | 타입     | 필수 | 설명      |
@@ -413,7 +413,7 @@ Authorization: Bearer {accessToken}
 - **Method**: `GET`
 - **URL**: `/api/groups/{groupId}`
 - **설명**: 특정 모임의 상세 정보를 조회한다.
-- **권한**: 비회원, 회원
+- **권한**:  회원
 
 #### Path Variable
 

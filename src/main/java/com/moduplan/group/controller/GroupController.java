@@ -4,6 +4,8 @@ import com.moduplan.global.exception.UnauthorizedException;
 import com.moduplan.global.response.ApiResponse;
 import com.moduplan.group.dto.GroupCreateRequest;
 import com.moduplan.group.dto.GroupCreateResponse;
+import com.moduplan.group.dto.GroupDetailResponse;
+import com.moduplan.group.dto.GroupListResponse;
 import com.moduplan.group.repository.GroupRepository;
 import com.moduplan.group.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,5 +40,33 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success(201,"모임 생성이 완료되었습니다.", response));
+    }
+
+    @Operation(summary = "모임 목록 조회")
+    @GetMapping
+    public ResponseEntity<ApiResponse<GroupListResponse>> getGroups(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String region,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        GroupListResponse response = groupService.getGroups(category, region, keyword, page, size);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(200, "모임 목록 조회에 성공했습니다.", response)
+        );
+    }
+
+    @Operation(summary = "모임 상세 조회")
+    @GetMapping("/{groupId}")
+    public ResponseEntity<ApiResponse<GroupDetailResponse>> getGroupDetail(
+            @PathVariable Long groupId
+    ) {
+        GroupDetailResponse response = groupService.getGroupDetail(groupId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(200, "모임 목록 상세 조회에 성공했습니다.", response)
+                );
     }
 }
