@@ -1,7 +1,10 @@
 package com.moduplan.user.service;
 
+import com.moduplan.auth.jwt.JwtTokenProvider;
 import com.moduplan.global.exception.NotFoundException;
+import com.moduplan.global.exception.UnauthorizedException;
 import com.moduplan.user.dto.MyInfoResponse;
+import com.moduplan.user.dto.UserDetailResponse;
 import com.moduplan.user.entity.User;
 import com.moduplan.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,17 @@ public class UserService {
                 user.getEmail(),
                 user.getNickname(),
                 user.getCreatedAt()
+        );
+    }
+
+    public UserDetailResponse getUserDetail(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 사용자입니다."));
+
+        return new UserDetailResponse(
+                user.getId(),
+                user.getNickname(),
+                0
         );
     }
 }

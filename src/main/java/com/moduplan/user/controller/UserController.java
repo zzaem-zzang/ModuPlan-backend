@@ -3,15 +3,14 @@ package com.moduplan.user.controller;
 import com.moduplan.global.exception.UnauthorizedException;
 import com.moduplan.global.response.ApiResponse;
 import com.moduplan.user.dto.MyInfoResponse;
+import com.moduplan.user.dto.UserDetailResponse;
 import com.moduplan.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,5 +32,21 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success(200, "내 정보 조회에 성공했습니다.", response)
         );
+    }
+
+    @Operation(summary = "회원 상세 조회")
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserDetailResponse>> getUserDetail(
+            Authentication authentication,
+            @PathVariable Long userId
+    ) {
+        if (authentication == null || authentication.getPrincipal() == null) {
+            throw new UnauthorizedException("인증되지 않은 사용자입니다.");
+        }
+
+        UserDetailResponse response = userService.getUserDetail(userId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(200, "회원 상세 조회에 성공했습니다.", response));
     }
 }
