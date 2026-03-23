@@ -41,6 +41,16 @@ public class AuthController {
         TokenResponse response = authService.reissueToken(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(201,"토큰 재발급 성공하였습니다.", response));
+                .body(ApiResponse.success(201, "토큰 재발급 성공하였습니다.", response));
+    }
+
+    @Operation(summary = "로그아웃")
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(
+            @RequestHeader("Authorization") String authorizationHeader
+    ){
+        authService.logout(authorizationHeader);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(200, "로그아웃이 완료되었습니다.", null));
     }
 }
