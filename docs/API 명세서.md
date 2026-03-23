@@ -247,7 +247,6 @@ Authorization: Bearer {accessToken}
   "data": {
     "userId": 1,
     "nickname": "modu",
-    "profileImageUrl": null,
     "joinedGroupCount": 3
   }
 }
