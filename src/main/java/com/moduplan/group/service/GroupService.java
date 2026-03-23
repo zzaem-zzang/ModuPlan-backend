@@ -1,8 +1,8 @@
 package com.moduplan.group.service;
 
 import com.moduplan.global.exception.NotFoundException;
-import com.moduplan.group.dto.request.GroupCreateRequest;
-import com.moduplan.group.dto.request.GroupCreateResponse;
+import com.moduplan.group.dto.GroupCreateRequest;
+import com.moduplan.group.dto.GroupCreateResponse;
 import com.moduplan.group.entity.Group;
 import com.moduplan.group.entity.GroupMember;
 import com.moduplan.group.repository.GroupMemberRepository;

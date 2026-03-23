@@ -1,4 +1,4 @@
-package com.moduplan.group.dto.request;
+package com.moduplan.group.dto;
 
 import com.moduplan.group.entity.GroupCategory;
 import jakarta.validation.constraints.*;

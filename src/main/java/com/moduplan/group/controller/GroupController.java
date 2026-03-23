@@ -2,8 +2,8 @@ package com.moduplan.group.controller;
 
 import com.moduplan.global.exception.UnauthorizedException;
 import com.moduplan.global.response.ApiResponse;
-import com.moduplan.group.dto.request.GroupCreateRequest;
-import com.moduplan.group.dto.request.GroupCreateResponse;
+import com.moduplan.group.dto.GroupCreateRequest;
+import com.moduplan.group.dto.GroupCreateResponse;
 import com.moduplan.group.repository.GroupRepository;
 import com.moduplan.group.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;

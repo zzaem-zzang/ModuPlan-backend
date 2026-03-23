@@ -1,4 +1,4 @@
-package com.moduplan.group.dto.request;
+package com.moduplan.group.dto;
 
 public record GroupCreateResponse(
         Long groupId
