@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/groups")
 public class GroupController {
 
-    private final GroupRepository groupRepository;
     private final GroupService groupService;
 
     @Operation(summary = "모임 생성")
