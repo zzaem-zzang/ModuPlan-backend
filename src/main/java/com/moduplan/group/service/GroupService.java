@@ -131,4 +131,33 @@ public class GroupService {
                 group.getCreatedAt()
         );
     }
+
+    public MyGroupPageResponse getMyGroup(Long userId, Pageable pageable) {
+        if (pageable.getPageNumber() < 0) {
+            throw new BadRequestException("페이지 번호는 0 이상이어야 합니다.");
+        }
+
+        if (pageable.getPageSize() <= 0) {
+            throw new BadRequestException("페이지 크기는 1 이상이어야 합니다.");
+        }
+
+        Page<GroupMember> groupMemberPage =
+                groupMemberRepository.findByUser_IdAndGroup_DeletedAtIsNullAndGroup_Status(
+                        userId,
+                        GroupStatus.ACTIVE,
+                        pageable
+                );
+
+        Page<MyGroupResponse> responsePage = groupMemberPage.map(groupMember ->
+                new MyGroupResponse(
+                        groupMember.getGroup().getId(),
+                        groupMember.getGroup().getName(),
+                        groupMember.getRole().name(),
+                        groupMemberRepository.countByGroup_Id(groupMember.getGroup().getId()),
+                        groupMember.getGroup().getMaxMembers()
+                )
+        );
+
+        return MyGroupPageResponse.from(responsePage);
+    }
 }

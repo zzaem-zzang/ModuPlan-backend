@@ -4,14 +4,14 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public record GroupListResponse(
-        List<GroupListItemResponse> content,
+public record MyGroupPageResponse(
+        List<MyGroupResponse> content,
         int page,
         int size,
         long totalElements
 ) {
-    public static GroupListResponse from(Page<GroupListItemResponse> pageResult) {
-        return new GroupListResponse(
+    public static MyGroupPageResponse from(Page<MyGroupResponse> pageResult) {
+        return new MyGroupPageResponse(
                 pageResult.getContent(),
                 pageResult.getNumber(),
                 pageResult.getSize(),
