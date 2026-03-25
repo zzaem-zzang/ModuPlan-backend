@@ -10,6 +10,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: production
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: moduplan
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p1234"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
     env:
       SPRING_APPLICATION_NAME: ${{ vars.SPRING_APPLICATION_NAME }}
       SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
