@@ -19,9 +19,9 @@
 - 로그인 필요: /mypage, /members/:userId, /meetings/new, /my-meetings, /meetings/:groupId/apply, /groups/:groupId/schedules <br>
 - 모임장 필요: /groups/:groupId/schedules/new, /groups/:groupId/applications
 - [x] 공통 레이아웃 구성
-- [ ] 재사용 가능한 공통 컴포넌트 작성
-- [ ] API 호출용 공통 클라이언트 작성
-- [ ] API 명세서 기준 요청/응답 타입 정의
+- [x] 재사용 가능한 공통 컴포넌트 작성
+- [x] API 호출용 공통 클라이언트 작성
+- [x] API 명세서 기준 요청/응답 타입 정의
 
 ## 3. 인증 기능 구현
 
