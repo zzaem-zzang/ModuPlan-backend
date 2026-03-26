@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.moduplan'
 version = '0.0.1-SNAPSHOT'
-description = '비정형 모임 운영을 개선한 소모임 관리 서비스'
+description = 'ModuPlan backend'
 
 java {
 	toolchain {
