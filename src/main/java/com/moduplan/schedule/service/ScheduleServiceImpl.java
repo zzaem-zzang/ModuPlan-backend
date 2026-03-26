@@ -7,6 +7,8 @@ import com.moduplan.group.entity.GroupStatus;
 import com.moduplan.group.repository.GroupRepository;
 import com.moduplan.schedule.dto.ScheduleCreateRequest;
 import com.moduplan.schedule.dto.ScheduleCreateResponse;
+import com.moduplan.schedule.dto.ScheduleListItemResponse;
+import com.moduplan.schedule.dto.ScheduleListResponse;
 import com.moduplan.schedule.entity.Schedule;
 import com.moduplan.schedule.repository.ScheduleRepository;
 import com.moduplan.user.entity.User;
@@ -47,5 +49,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return ScheduleCreateResponse.from(savedSchedule.getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ScheduleListResponse getSchedules(Long groupId) {
+        groupRepository.findByIdAndDeletedAtIsNullAndStatus(groupId, GroupStatus.ACTIVE)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 모임입니다."));
+
+        return ScheduleListResponse.from(
+                scheduleRepository.findByGroup_IdOrderByScheduledAtAsc(groupId).stream()
+                        .map(ScheduleListItemResponse::from)
+                        .toList()
+        );
     }
 }
