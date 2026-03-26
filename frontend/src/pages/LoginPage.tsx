@@ -1,3 +1,5 @@
+import Button from '../components/Button'
+import Input from '../components/Input'
 import './AuthPage.css'
 
 function LoginPage() {
@@ -9,34 +11,28 @@ function LoginPage() {
       </p>
 
       <div className="auth-page__group">
-        <label className="auth-page__label" htmlFor="login-email">
-          이메일
-        </label>
-        <input
+        <Input
           id="login-email"
-          className="auth-page__input"
+          label="이메일"
           type="email"
           placeholder="test@test.com"
         />
       </div>
 
       <div className="auth-page__group">
-        <label className="auth-page__label" htmlFor="login-password">
-          비밀번호
-        </label>
-        <input
+        <Input
           id="login-password"
-          className="auth-page__input"
+          label="비밀번호"
           type="password"
           placeholder="비밀번호를 입력하세요"
         />
       </div>
 
-      <button className="auth-page__button" type="button">
-        로그인
-      </button>
+      <Button fullWidth>로그인</Button>
 
-      <p className="auth-page__hint">계정이 없다면 회원가입 페이지로 이동하세요.</p>
+      <p className="auth-page__hint">
+        계정이 없다면 회원가입 페이지로 이동하세요.
+      </p>
     </div>
   )
 }
