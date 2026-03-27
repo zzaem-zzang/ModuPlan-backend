@@ -1,16 +1,16 @@
-export type MyProfile = {
+export type MyInfo = {
   userId: number
   email: string
   nickname: string
   createdAt: string
 }
 
-export type UserProfile = {
+export type UserDetail = {
   userId: number
   nickname: string
-  joinedGroupCount: number
+  joinGroupCount: number
 }
 
-export type DeleteUserRequest = {
+export type WithdrawRequest = {
   password: string
 }

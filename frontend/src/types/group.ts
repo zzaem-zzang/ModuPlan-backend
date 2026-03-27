@@ -1,11 +1,6 @@
-import type { PagedResponse } from './common'
+import type { PageResponse } from './api'
 
-export type GroupCategory =
-  | 'SPORTS'
-  | 'STUDY'
-  | 'HOBBY'
-  | 'CULTURE'
-  | 'ETC'
+export type GroupCategory = 'SPORTS' | 'STUDY' | 'CULTURE' | 'TRAVEL' | 'ETC'
 
 export type GroupSummary = {
   groupId: number
@@ -35,6 +30,25 @@ export type GroupDetail = {
   createdAt: string
 }
 
+export type MyGroupSummary = {
+  groupId: number
+  name: string
+  role: 'LEADER' | 'MEMBER'
+  currentMembers: number
+  maxMembers: number
+}
+
+export type GroupListResponse = PageResponse<GroupSummary>
+export type MyGroupListResponse = PageResponse<MyGroupSummary>
+
+export type GroupListParams = {
+  category?: string
+  region?: string
+  keyword?: string
+  page?: number
+  size?: number
+}
+
 export type CreateGroupRequest = {
   name: string
   description: string
@@ -47,14 +61,3 @@ export type CreateGroupRequest = {
 export type CreateGroupResponse = {
   groupId: number
 }
-
-export type MyGroupSummary = {
-  groupId: number
-  name: string
-  role: 'LEADER' | 'MEMBER'
-  currentMembers: number
-  maxMembers: number
-}
-
-export type GroupListResponse = PagedResponse<GroupSummary>
-export type MyGroupListResponse = PagedResponse<MyGroupSummary>

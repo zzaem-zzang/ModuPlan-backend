@@ -2,7 +2,7 @@ export type CreateApplicationResponse = {
   applicationId: number
 }
 
-export type ApplicationDecisionResponse = {
+export type ProcessApplicationResponse = {
   applicationId: number
   status: 'APPROVED' | 'REJECTED'
 }
