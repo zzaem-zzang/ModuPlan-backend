@@ -1,93 +1,81 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import { signup } from '../services/auth'
-import './AuthPage.css'
+import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import { Button } from '../components/ui/Button'
+import { InputField } from '../components/ui/InputField'
+import { PageHeader } from '../components/ui/PageHeader'
+import { ROUTES } from '../routes/route-paths'
+import { useAuth } from '../store/auth/useAuth'
+import type { SignupRequest } from '../types/auth'
+import { getErrorMessage } from '../utils/error'
 
-function SignupPage() {
+export function SignupPage() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [nickname, setNickname] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { signupAction } = useAuth()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<SignupRequest>()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setErrorMessage('')
-    setSuccessMessage('')
-
-    if (!email || !nickname || !password) {
-      setErrorMessage('이메일, 닉네임, 비밀번호를 모두 입력하세요.')
-      return
-    }
-
-    try {
-      setIsSubmitting(true)
-      await signup({ email, nickname, password })
-      setSuccessMessage('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.')
-      setTimeout(() => navigate('/login'), 800)
-    } catch {
-      setErrorMessage('회원가입에 실패했습니다. 입력값을 다시 확인하세요.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  const signupMutation = useMutation({
+    mutationFn: signupAction,
+    onSuccess: () => navigate(ROUTES.login),
+    onError: (error) => setError('root', { message: getErrorMessage(error) }),
+  })
 
   return (
-    <form className="auth-page" onSubmit={handleSubmit}>
-      <h2 className="auth-page__title">회원가입</h2>
-      <p className="auth-page__text">
-        기본 정보만 입력해서 ModuPlan 계정을 만들 수 있습니다.
-      </p>
+    <div className="grid gap-6">
+      <PageHeader
+        eyebrow="Signup"
+        title="회원가입"
+        description="이메일, 비밀번호, 닉네임을 입력하면 즉시 로그인 가능한 계정을 생성합니다."
+      />
 
-      <div className="auth-page__group">
-        <Input
+      <form className="grid gap-4" onSubmit={handleSubmit((values) => signupMutation.mutate(values))}>
+        <InputField
           id="signup-email"
           label="이메일"
           type="email"
-          placeholder="test@test.com"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          error={errors.email?.message}
+          {...register('email', {
+            required: '이메일을 입력하세요.',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: '올바른 이메일 형식을 입력하세요.',
+            },
+          })}
         />
-      </div>
-
-      <div className="auth-page__group">
-        <Input
-          id="signup-nickname"
-          label="닉네임"
-          type="text"
-          placeholder="닉네임을 입력하세요"
-          value={nickname}
-          onChange={(event) => setNickname(event.target.value)}
-        />
-      </div>
-
-      <div className="auth-page__group">
-        <Input
+        <InputField
           id="signup-password"
           label="비밀번호"
           type="password"
-          placeholder="비밀번호를 입력하세요"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          error={errors.password?.message}
+          {...register('password', {
+            required: '비밀번호를 입력하세요.',
+            minLength: { value: 8, message: '비밀번호는 8자 이상이어야 합니다.' },
+          })}
         />
-      </div>
+        <InputField
+          id="signup-nickname"
+          label="닉네임"
+          error={errors.nickname?.message}
+          {...register('nickname', { required: '닉네임을 입력하세요.' })}
+        />
+        {errors.root?.message ? <p className="text-sm text-rose-600">{errors.root.message}</p> : null}
+        <Button type="submit" className="w-full" disabled={signupMutation.isPending}>
+          {signupMutation.isPending ? '가입 중...' : '회원가입'}
+        </Button>
+      </form>
 
-      {errorMessage ? <p className="auth-page__error">{errorMessage}</p> : null}
-      {successMessage ? <p className="auth-page__success">{successMessage}</p> : null}
-
-      <Button fullWidth type="submit" disabled={isSubmitting}>
-        {isSubmitting ? '가입 중...' : '회원가입'}
-      </Button>
-
-      <p className="auth-page__hint">
-        가입 후 로그인 페이지에서 인증을 진행합니다.
+      <p className="text-sm text-slate-500">
+        이미 계정이 있다면{' '}
+        <Link to={ROUTES.login} className="font-semibold text-brand-700">
+          로그인
+        </Link>
+        으로 이동하세요.
       </p>
-    </form>
+    </div>
   )
 }
-
-export default SignupPage

@@ -1,79 +1,72 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import { ACCESS_TOKEN_KEY } from '../api/client'
-import { login } from '../services/auth'
-import './AuthPage.css'
+import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Button } from '../components/ui/Button'
+import { InputField } from '../components/ui/InputField'
+import { PageHeader } from '../components/ui/PageHeader'
+import { ROUTES } from '../routes/route-paths'
+import { useAuth } from '../store/auth/useAuth'
+import type { LoginRequest } from '../types/auth'
+import { getErrorMessage } from '../utils/error'
 
-function LoginPage() {
+export function LoginPage() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const location = useLocation()
+  const { loginAction } = useAuth()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginRequest>()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setErrorMessage('')
-
-    if (!email || !password) {
-      setErrorMessage('이메일과 비밀번호를 입력하세요.')
-      return
-    }
-
-    try {
-      setIsSubmitting(true)
-      const response = await login({ email, password })
-      localStorage.setItem(ACCESS_TOKEN_KEY, response.data.accessToken)
-      navigate('/')
-    } catch {
-      setErrorMessage('로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인하세요.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  const loginMutation = useMutation({
+    mutationFn: loginAction,
+    onSuccess: () => {
+      const nextPath = (location.state as { from?: string } | null)?.from ?? ROUTES.home
+      navigate(nextPath, { replace: true })
+    },
+    onError: (error) => {
+      setError('root', { message: getErrorMessage(error) })
+    },
+  })
 
   return (
-    <form className="auth-page" onSubmit={handleSubmit}>
-      <h2 className="auth-page__title">로그인</h2>
-      <p className="auth-page__text">
-        가입한 이메일과 비밀번호를 입력해 모임 관리 화면으로 이동합니다.
-      </p>
+    <div className="grid gap-6">
+      <PageHeader
+        eyebrow="Login"
+        title="로그인"
+        description="이메일과 비밀번호를 입력하면 저장된 토큰으로 인증 세션이 구성됩니다."
+      />
 
-      <div className="auth-page__group">
-        <Input
+      <form className="grid gap-4" onSubmit={handleSubmit((values) => loginMutation.mutate(values))}>
+        <InputField
           id="login-email"
           label="이메일"
           type="email"
-          placeholder="test@test.com"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          error={errors.email?.message}
+          {...register('email', { required: '이메일을 입력하세요.' })}
         />
-      </div>
-
-      <div className="auth-page__group">
-        <Input
+        <InputField
           id="login-password"
           label="비밀번호"
           type="password"
-          placeholder="비밀번호를 입력하세요"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          error={errors.password?.message}
+          {...register('password', { required: '비밀번호를 입력하세요.' })}
         />
-      </div>
+        {errors.root?.message ? <p className="text-sm text-rose-600">{errors.root.message}</p> : null}
+        <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
+          {loginMutation.isPending ? '로그인 중...' : '로그인'}
+        </Button>
+      </form>
 
-      {errorMessage ? <p className="auth-page__error">{errorMessage}</p> : null}
-
-      <Button fullWidth type="submit" disabled={isSubmitting}>
-        {isSubmitting ? '로그인 중...' : '로그인'}
-      </Button>
-
-      <p className="auth-page__hint">
-        계정이 없다면 회원가입 페이지로 이동하세요.
+      <p className="text-sm text-slate-500">
+        계정이 없다면{' '}
+        <Link to={ROUTES.signup} className="font-semibold text-brand-700">
+          회원가입
+        </Link>
+        으로 이동하세요.
       </p>
-    </form>
+    </div>
   )
 }
-
-export default LoginPage

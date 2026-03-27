@@ -1,13 +1,3 @@
-export type SignupRequest = {
-  email: string
-  password: string
-  nickname: string
-}
-
-export type SignupResponse = {
-  userId: number
-}
-
 export type LoginRequest = {
   email: string
   password: string
@@ -20,11 +10,28 @@ export type LoginResponse = {
   refreshToken: string
 }
 
+export type SignupRequest = {
+  email: string
+  password: string
+  nickname: string
+}
+
+export type SignupResponse = {
+  userId: number
+}
+
 export type ReissueRequest = {
   refreshToken: string
 }
 
 export type ReissueResponse = {
+  accessToken: string
+  refreshToken: string
+}
+
+export type AuthSession = {
+  userId: number
+  nickname: string
   accessToken: string
   refreshToken: string
 }

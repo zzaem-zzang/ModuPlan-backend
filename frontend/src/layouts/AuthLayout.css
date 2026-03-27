@@ -1,82 +1,90 @@
 .auth-layout {
-  min-height: 100vh;
   position: relative;
+  min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(87, 151, 255, 0.18), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(32, 201, 151, 0.16), transparent 24%),
-    linear-gradient(135deg, #f5fbff 0%, #f8fafc 46%, #eef6ff 100%);
 }
 
 .auth-layout__backdrop {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(120deg, rgba(15, 23, 42, 0.04), transparent 42%),
-    radial-gradient(circle at 82% 16%, rgba(87, 151, 255, 0.14), transparent 18%);
+    radial-gradient(circle at 10% 15%, rgba(20, 184, 166, 0.24), transparent 26%),
+    radial-gradient(circle at 88% 22%, rgba(14, 165, 233, 0.18), transparent 22%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08));
 }
 
 .auth-layout__main {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 48px 24px;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px);
-  gap: 32px;
+  grid-template-columns: minmax(320px, 1.15fr) minmax(320px, 460px);
+  gap: 2rem;
+  min-height: 100vh;
+  padding: 3rem clamp(1.25rem, 2vw, 2.5rem);
   align-items: center;
-  box-sizing: border-box;
 }
 
 .auth-layout__intro {
-  text-align: left;
-  color: #314158;
+  padding: clamp(1rem, 3vw, 3rem);
 }
 
 .auth-layout__eyebrow {
-  margin-bottom: 16px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
+  margin: 0 0 1rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #2f6fed;
+  color: #0f766e;
 }
 
 .auth-layout__intro h1 {
-  margin: 0 0 20px;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  color: #0f172a;
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.3rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  max-width: 10ch;
 }
 
 .auth-layout__description {
-  max-width: 34rem;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #52627a;
+  max-width: 52ch;
+  margin: 1.25rem 0 0;
+  color: #475569;
+  font-size: 1.02rem;
+}
+
+.auth-layout__points {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.auth-layout__point {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.auth-layout__point strong {
+  display: block;
+  margin-bottom: 0.3rem;
 }
 
 .auth-layout__panel {
-  padding: 32px;
-  border: 1px solid rgba(148, 163, 184, 0.24);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 24px 60px rgba(37, 99, 235, 0.12);
-  backdrop-filter: blur(12px);
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(22px);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .auth-layout__main {
     grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 32px 16px;
+    align-items: start;
   }
 
-  .auth-layout__panel {
-    padding: 24px;
-    border-radius: 24px;
+  .auth-layout__intro {
+    padding: 1rem 0 0;
   }
 }
