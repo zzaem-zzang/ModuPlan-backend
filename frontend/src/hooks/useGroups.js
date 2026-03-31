@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { fetchGroupDetail, fetchGroups, fetchMyGroups } from '../services/groups'
 
-export function useGroupsQuery(params) {
+export function useGroupsQuery(params, enabled = true) {
   return useQuery({
     queryKey: ['groups', params],
     queryFn: () => fetchGroups(params),
+    enabled,
   })
 }
 
