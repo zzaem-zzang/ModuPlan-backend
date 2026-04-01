@@ -38,12 +38,6 @@ public class GroupInviteCode {
     @Column(nullable = false, length = 20)
     private GroupInviteCodeStatus status;
 
-    @Column(name = "max_uses")
-    private Integer maxUses;
-
-    @Column(name = "used_count", nullable = false)
-    private Integer usedCount;
-
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
 
@@ -63,7 +57,6 @@ public class GroupInviteCode {
     public static GroupInviteCode create(
             Group group,
             String code,
-            Integer maxUses,
             LocalDateTime expiresAt,
             User createdBy
     ) {
@@ -73,18 +66,11 @@ public class GroupInviteCode {
                 .group(group)
                 .code(code)
                 .status(GroupInviteCodeStatus.ACTIVE)
-                .maxUses(maxUses)
-                .usedCount(0)
                 .expiresAt(expiresAt)
                 .createdBy(createdBy)
                 .createdAt(now)
                 .updatedAt(now)
                 .build();
-    }
-
-    public void markUsed() {
-        this.usedCount += 1;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void expire() {

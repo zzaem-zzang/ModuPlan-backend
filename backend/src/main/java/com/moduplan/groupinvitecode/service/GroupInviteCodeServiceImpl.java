@@ -112,7 +112,6 @@ public class GroupInviteCodeServiceImpl implements GroupInviteCodeService {
 
         GroupMember member = GroupMember.createMember(group, user);
         GroupMember savedMember = groupMemberRepository.save(member);
-        inviteCode.markUsed();
 
         return GroupInviteCodeJoinResponse.from(group, savedMember);
     }
@@ -123,11 +122,6 @@ public class GroupInviteCodeServiceImpl implements GroupInviteCodeService {
         if (inviteCode.getExpiresAt() != null && inviteCode.getExpiresAt().isBefore(now)) {
             inviteCode.expire();
             throw new ConflictException("만료된 초대코드입니다.");
-        }
-
-        if (inviteCode.getMaxUses() != null && inviteCode.getUsedCount() >= inviteCode.getMaxUses()) {
-            inviteCode.revoke();
-            throw new ConflictException("사용 가능한 횟수를 초과한 초대코드입니다.");
         }
     }
 
@@ -150,7 +144,6 @@ public class GroupInviteCodeServiceImpl implements GroupInviteCodeService {
         GroupInviteCode inviteCode = GroupInviteCode.create(
                 group,
                 generateUniqueCode(),
-                null,
                 null,
                 user
         );

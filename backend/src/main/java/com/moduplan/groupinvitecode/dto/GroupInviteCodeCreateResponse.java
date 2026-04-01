@@ -9,8 +9,6 @@ public record GroupInviteCodeCreateResponse(
         Long groupId,
         String code,
         String status,
-        Integer maxUses,
-        Integer usedCount,
         LocalDateTime expiresAt,
         LocalDateTime createdAt
 ) {
@@ -20,8 +18,6 @@ public record GroupInviteCodeCreateResponse(
                 inviteCode.getGroup().getId(),
                 inviteCode.getCode(),
                 inviteCode.getStatus().name(),
-                inviteCode.getMaxUses(),
-                inviteCode.getUsedCount(),
                 inviteCode.getExpiresAt(),
                 inviteCode.getCreatedAt()
         );
