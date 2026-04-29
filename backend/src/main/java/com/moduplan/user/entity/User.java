@@ -17,11 +17,17 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String password;
 
     @Column(nullable = false, length = 50)
     private String nickname;
+
+    @Column(length = 20)
+    private String provider;
+
+    @Column(length = 100)
+    private String providerId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -42,6 +48,18 @@ public class User {
         this.password = password;
         this.nickname = nickname;
         this.status = UserStatus.ACTIVE;
+        this.provider = "LOCAL";
+    }
+
+    public static User oauthUser(String email, String nickname, String provider, String providerId) {
+        User user = new User();
+        user.email = email;
+        user.password = "OAUTH2_USER";
+        user.nickname = nickname;
+        user.provider = provider;
+        user.providerId = providerId;
+        user.status = UserStatus.ACTIVE;
+        return user;
     }
 
     @PrePersist

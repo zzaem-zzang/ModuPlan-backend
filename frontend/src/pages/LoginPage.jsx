@@ -11,7 +11,7 @@ const TEXT = {
   title: '로그인',
   description: '이전에 둘러보던 모임과 신청 상태를 이어서 확인하세요.',
   redirectNotice: '보려던 페이지가 있어 로그인 후 바로 이어서 이동합니다.',
-  formTitle: '관심 있는 모임을 계속 살펴보세요',
+  formTitle: '관심 있는 모임을 계속 둘러보세요',
   formDescription: '이메일과 비밀번호만 입력하면 바로 이어집니다.',
   emailLabel: '이메일',
   emailRequired: '이메일을 입력해 주세요.',
@@ -21,9 +21,11 @@ const TEXT = {
   submitIdle: '로그인',
   submitPending: '로그인 중...',
   signupPrompt: '처음이신가요?',
-  signupDescription: '회원가입 후 운동, 스터디, 취미 모임을 한곳에서 찾고 참여할 수 있습니다.',
+  signupDescription: '회원가입하면 운동, 스터디, 취미 모임을 한곳에서 찾고 참여할 수 있습니다.',
   signupLink: '회원가입하기',
 }
+
+const KAKAO_AUTH_URL = 'http://localhost:8081/oauth2/authorization/kakao'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -134,6 +136,20 @@ export function LoginPage() {
           >
             {loginMutation.isPending ? TEXT.submitPending : TEXT.submitIdle}
           </Button>
+          <button
+            type="button"
+            aria-label="카카오 로그인"
+            className="w-full rounded-full transition hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-[#191919]/20"
+            onClick={() => {
+              window.location.href = KAKAO_AUTH_URL
+            }}
+          >
+            <img
+              src="/kakao-login-button.svg"
+              alt=""
+              className="h-auto w-full rounded-full"
+            />
+          </button>
         </form>
       </section>
 

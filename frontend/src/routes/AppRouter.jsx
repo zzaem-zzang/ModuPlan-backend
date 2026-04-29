@@ -10,6 +10,7 @@ import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
 import { MyGroupsPage } from '../pages/MyGroupsPage'
 import { MyInfoPage } from '../pages/MyInfoPage'
+import { OAuthCallbackPage } from '../pages/OAuthCallbackPage'
 import { SignupPage } from '../pages/SignupPage'
 import { ProtectedRoute } from './ProtectedRoute'
 import { PublicOnlyRoute } from './PublicOnlyRoute'
@@ -66,6 +67,7 @@ export function AppRouter() {
         </Route>
 
         <Route element={<AuthLayout />}>
+          <Route path={ROUTES.oauthCallback} element={<OAuthCallbackPage />} />
           <Route
             path={ROUTES.login}
             element={

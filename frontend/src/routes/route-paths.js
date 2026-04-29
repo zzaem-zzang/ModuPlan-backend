@@ -1,6 +1,7 @@
 export const ROUTES = {
   home: '/',
   login: '/login',
+  oauthCallback: '/oauth/callback',
   signup: '/signup',
   groups: '/groups',
   groupDetail: (groupId) => `/groups/${groupId}`,
